@@ -1,0 +1,179 @@
+
+{% if submitted %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .flight {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .flight h2 {
+            margin: 0;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight Details</h1>
+
+    {% for flight in data %}
+    <div class="flight">
+        {% for info in flight.purchaseLinks %}
+		
+        <h2>Provider ID: {{info.providerId}}</h2>
+        
+		<p>Total Price: {{info.totalPrice}}</p>
+        <p>Total Price Per Passenger: {{info.totalPricePerPassenger}}</p>
+        <p>URL: <a href="{{info.url}}">Link to Flight</a></p>
+        {% endfor %}
+
+        {% for key, index in flight.items %}
+        {% for index3 in index %}
+        {% for legs in index3.legs %}
+        <h3>Flight Number: {{legs.flightNumber}}</h3>
+		<p>Departure Time: {{legs.departureDateTime |slice:"11:19"}}</p>
+		<p>Arrival Time: {{legs.arrivalDateTime |slice:"11:19"}}</p>
+        <p>Origin Station Code: {{legs.originStationCode}}</p>
+        <p>Destination Station Code: {{legs.destinationStationCode}}</p>
+        <p>Class of Service: {{legs.classOfService}}</p>
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    {% endfor %}
+</div>
+
+
+
+</body>
+
+</html>
+
+{% else %}
+
+{{submitted}}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking Form HTML Template</title>
+
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans:400" rel="stylesheet">
+
+  <link type="text/css" rel="stylesheet" href="{%static 'blog/css/bootstrap.min.css' %}" />
+
+  <link type="text/css" rel="stylesheet" href="{%static 'blog/css/style.css' %}" />
+
+  </head>
+
+<body>
+  <div id="booking" class="section">
+    <div class="section-center">
+      <div class="container">
+        <div class="row">
+          <div class="booking-form">
+            <form method="post">
+              {% csrf_token %}
+
+              <div class="form-group">
+                <div class="form-checkbox">
+                  <label for="roundtrip">
+                    <input type="radio" id="roundtrip" name="flight-type" value="roundtrip">
+                    <span></span>Roundtrip
+                  </label>
+                  <label for="one-way">
+                    <input type="radio" id="one-way" name="flight-type" value="oneway">
+                    <span></span>One way
+                  </label>
+                  
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span class="form-label">Flying from</span>
+                    <input class="form-control" name="flying_from" type="text" placeholder="City or airport">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span class="form-label">Flying to</span>
+                    <input class="form-control" name="flying_to" type="text" placeholder="City or airport">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <span class="form-label">Departing</span>
+                    <input class="form-control" type="date" name="departing" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <span class="form-label">Returning</span>
+                    <input class="form-control" type="date" name="returning" >
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <span class="form-label">Adults (18+)</span>
+                    <select class="form-control" name="adults">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                    </select>
+                    <span class="select-arrow"></span>
+                  </div>
+				</div>
+			</div>
+			
+			
+			<div class="col-md-2">
+				<div class="form-group">
+					<span class="form-label">Children (0-17)</span>
+					<select class="form-control" name="children">
+						<option>0</option>
+						<option>1</option>
+						<option>2</option>
+					</select>
+					<span class="select-arrow"></span>
+				</div>
+			</div>
+		</div>
+				  <div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<span class="form-label">Travel class</span>
+							<select class="form-control" name="travel_class">
+								<option>Economy class</option>
+								<option>Business class</option>
+								<option>First class</option>
+							</select>
+							<span class="select-arrow"></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-btn">
+						<button class="submit-btn">Show flights</button>
+					</div>
+
+{% endif %}
+
+                

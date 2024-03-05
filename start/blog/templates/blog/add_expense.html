@@ -1,0 +1,22 @@
+<!--<form method="post">
+    {% for i in data %}
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="user_{{i.user}}" value="{{i.user}}" > </br>
+    <label for="expense">Expense</label>
+    <input type="text" id="expense" name="expense_{{i.user}}" > </br>
+    {% endfor %}
+    
+    <label for="bits_id">description</label>    </br>
+    <input type="text" id="email" name="desc" >
+  
+
+    <button type="submit">Submit</button>
+    {% csrf_token %}
+</form>
+{{data}}-->
+<form action="" method="POST">
+    
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>

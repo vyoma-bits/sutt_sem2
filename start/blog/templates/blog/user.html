@@ -1,0 +1,8 @@
+
+
+<h2>Registered Users:</h2>
+<ul>
+    {% for user in registered_users %}
+        <li>{{ user.user.username }}</li>
+    {% endfor %}
+</ul>

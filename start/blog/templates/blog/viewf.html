@@ -1,0 +1,13 @@
+{% if submitted %}
+Your form was submitted succesfully
+<button onclick="location.href='{% url 'home2' %}'">Go to home</button>
+{{submitted}}
+{% else %}
+
+<form action="" method="POST">
+{{submitted}}
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
+{% endif %}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Flight Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .flight {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .flight h2 {
+            margin: 0;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight Details</h1>
+
+    {% for flight in data %}
+    <div class="flight">
+        {% for info in flight.purchaseLinks %}
+		
+        <h2>Provider ID: {{info.providerId}}</h2>
+        
+		<p>Total Price: {{info.totalPrice}}</p>
+        <p>Total Price Per Passenger: {{info.totalPricePerPassenger}}</p>
+        <p>URL: <a href="{{info.url}}">Link to Flight</a></p>
+        {% endfor %}
+
+        {% for key, index in flight.items %}
+        {% for index3 in index %}
+        {% for legs in index3.legs %}
+        <h3>Flight Number: {{legs.flightNumber}}</h3>
+		<p>Departure Time: {{legs.departureDateTime |slice:"11:19"}}</p>
+		<p>Arrival Time: {{legs.arrivalDateTime |slice:"11:19"}}</p>
+        <p>Origin Station Code: {{legs.originStationCode}}</p>
+        <p>Destination Station Code: {{legs.destinationStationCode}}</p>
+        <p>Class of Service: {{legs.classOfService}}</p>
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    {% endfor %}
+</div>
+
+
+
+</body>
+
+</html>

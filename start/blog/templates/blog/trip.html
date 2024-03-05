@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Trips</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .trip {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: transform 0.3s ease-in-out;
+        }
+        .trip:hover {
+            transform: scale(1.05);
+        }
+        .trip h2 {
+            margin: 0;
+            color: #007BFF;
+        }
+        .trip h2 {
+            margin: 0;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Trips</h1>
+    
+    {%for i in trip %}
+    <div class="trip">
+        <h2>{{i.place.location}}</h2>
+        <p>
+            Expense: {{i.expense}}<br>
+            Leader: {{i.leader}}<br>
+            People: {{i.people}}<br>
+            Place: {{i.place.location}}<br>
+            <a href="{% url 'view_trip' i.id %}">More Info</a>
+
+        </p>
+    </div>
+    {%endfor%}
+    <button onclick="location.href='{% url 'add_trip' %}'">Add New Trip</button>
+
+
+</body>
+</html>
