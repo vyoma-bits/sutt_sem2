@@ -13,7 +13,7 @@ def ai(content):
     }
     headers = {
         "content-type": "application/json",
-        "X-RapidAPI-Key": "23ffcdd161msh2f900f53717411ap1b95b2jsn7386a33d5477",
+        "X-RapidAPI-Key": "453a758bf1msh21cbadc89f9dd6bp103bb4jsn0f94ca2a8dbc",
         "X-RapidAPI-Host": "open-ai21.p.rapidapi.com"
     }
 
@@ -21,6 +21,6 @@ def ai(content):
 
     # Convert the response content to a string
     response_text = response.text
-    return response_text
+    return response.json
 
 

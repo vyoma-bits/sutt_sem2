@@ -40,11 +40,13 @@
             People: {{i.people}}<br>
             Place: {{i.place.location}}<br>
             <a href="{% url 'view_trip' i.id %}">More Info</a>
+            <button onclick="location.href='{% url 'expense' i.id %}'">view  expense</button>
 
         </p>
     </div>
     {%endfor%}
     <button onclick="location.href='{% url 'add_trip' %}'">Add New Trip</button>
+    
 
 
 </body>

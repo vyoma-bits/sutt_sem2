@@ -34,6 +34,7 @@ urlpatterns = [
     path('add_trip',views.add_trip,name="add_trip"),
     path('info/<int:trip_id>/',views.trip_info1,name='view_trip'),
     path('infoe/<int:event_id>/',views.event_info,name='infoe'),
+    path('d_info/<int:event_id>/',views.event_info1,name='d_info'),
     path('add_plan',views.add_plan,name="add_plan"),
     path('add_event',views.add_event,name="add_event"),
     path('edit_profile/<str:profile_id>',views.edit_profile,name="edit_profile"),
@@ -42,7 +43,8 @@ urlpatterns = [
     path('add_expense1',views.add_expense1,name="add_expense"),
     path('add_friends',views.add_friends,name="add_friends"),
     path('expense/<int:trip_id>',views.expense1,name="expense"),
-    path("logout",views.logout1,name="logout")
+    path("logout",views.logout1,name="logout"),
+    path("try",views.try1,name="try1")
     
 
 

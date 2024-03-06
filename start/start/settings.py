@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'start.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vyoma4',
+        'NAME': 'vyoma7',
         'USER':'postgres',
         'PASSWORD':'admin',
         'HOST':'localhost'
@@ -126,8 +126,8 @@ LOGIN_URL="login1"
 LOGIN_REDIRECT_URL="home2"
 LOGOUT_URL="logout"
 LOGOUT_REDIRECT_URL="ab"
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY="251668144575-5s7g99glt7o78f4qn7quh88v8gqskbir.apps.googleusercontent.com"
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET="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"
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY="337628064578-ekmlkd8e44k5ctk30bpqlclks1rvs9qt.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET="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"
 
 STATIC_URL = 'static/'
 AUTHENTICATION_BACKENDS=[

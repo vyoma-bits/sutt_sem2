@@ -23,8 +23,10 @@ class trip3(models.Model):
     expense1=models.IntegerField()
 
 class Trip_info(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE,primary_key=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
     trip=models.ForeignKey(trip3,on_delete=models.CASCADE)
+    ty=models.IntegerField(primary_key=True)
+
 
 class person(models.Model):
     bits_id=models.CharField()
@@ -53,10 +55,10 @@ class events(models.Model):
     date=models.DateField()
     description=models.CharField(max_length=200)
 class expense(models.Model):
-    user=models.OneToOneField(Trip_info,on_delete=models.CASCADE,primary_key=True)
+    user=models.ForeignKey(Trip_info,on_delete=models.CASCADE)
     trip_id1=models.ForeignKey(trip3,on_delete=models.CASCADE)
     expense=models.IntegerField()
-    expense_id=models.IntegerField()
+    expense_id=models.IntegerField(primary_key=True)
     description=models.CharField(max_length=250)
 
 

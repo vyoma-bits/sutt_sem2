@@ -9,6 +9,8 @@ from .flights_api import flights
 from .ai_done import ai
 import pandas as pd
 import json
+import datetime
+from datetime import datetime
 
 # Create your views here.
 def login1(request):
@@ -25,7 +27,7 @@ def home(request):
 
   
         print(data)
-        return render(request,"blog/result.html",{'data':{data}})
+        return render(request,"blog/result.html",{'data':data})
     
     return render(request,"blog/chat_try.html")
 
@@ -74,16 +76,18 @@ def flights1(request):
      
     if request.method == "POST":
          
-        flight_type=request.POST.get('flight-type')
+       
         flying_to=request.POST.get('flying_to')
         departing=request.POST.get('departing')
-        returning=request.POST.get('returning')
+       
         adults=request.POST.get('adults')
-        children=request.POST.get('children')
+       
+
+      
          
       
-        travel_class=request.POST.get('travel_class')
-        flights1=flights()
+       
+        flights1=flights(flying_to,departing,adults)
         data=flights1.get('data',{})
         data2=data.get('flights',{})
         print(data2)
@@ -126,6 +130,31 @@ def home2(request):
     op=Trip_info.objects.all()
     user1=request.user.username
     l=[]
+    u=User.objects.get(username=user1)
+    io=Trip_info.objects.all()
+    li=[]
+    for i in io:
+         if i.user == u:
+              li.append(i)
+ 
+    expense7=expense.objects.all()
+
+  
+    yu=[]
+    yu1=[]
+    for j in li:
+        expense1=0
+        
+        for i in expense7:
+            
+            if i.user == j:
+              expense1=expense1+i.expense
+            if i.trip_id1 == j.trip :
+             exp_t=exp_t+i.expense
+        yu.append(expense1)
+        yu1.append(exp_t)
+            
+        
     for i in op:
          
          
@@ -134,9 +163,10 @@ def home2(request):
               
          
               l.append(i.trip)
+   
 
 
-    return render(request,'blog/index.html',{'trip':l,"user":request.user,"holidays":holidays()})
+    return render(request,'blog/index.html',{'trip':l,"user":request.user,"holidays":holidays(),"expense1":yu,"total":yu1})
 def holidays():
 
 
@@ -167,12 +197,30 @@ def trips(request):
          if i.user.username == user1:
               l.append(i.trip)
     return render(request,'blog/trip.html',{'trip':l})
+import random
 def add_trip(request):
         submitted=False
         if request.method=="POST":
             form=tripForm(request.POST)
             if form.is_valid():
                 form.save()
+                user1=request.user
+                trip_id_value = form.cleaned_data.get('id')
+                uy=form.cleaned_data.get('leader')
+                
+                op=trip3.objects.get(id=trip_id_value)
+                u=User.objects.get(username=request.user.username)
+                t=User.objects.get(username=uy.username)
+               
+              
+                ut=Trip_info(user=t,trip=op,ty=random.randint(1, 1000))
+                ut.save()
+
+                io=Trip_info(user=u,trip=op,ty=random.randint(1, 1000))
+                io.save()
+                
+              
+
                 
                 return HttpResponseRedirect(f'/blog/viewf?submitted=True')
         else:
@@ -182,6 +230,10 @@ def add_trip(request):
                 
 
         return render(request,'blog/add_trip.html',{'form':form,'submitted':submitted})
+
+
+
+
 def trip_info1(request,trip_id):
      l=[]
      io=plans.objects.all()
@@ -241,6 +293,14 @@ def add_event(request):
                 
 
         return render(request,'blog/add_events.html',{'form':form,'submitted':submitted})
+def try1(request):
+     op=trip3.objects.get(place="RISHIKESH")
+     u=User.objects.get(username=request.user.username)
+
+     io=Trip_info(user=u,trip=op)
+     io.save()
+     return HttpResponse(op)
+
 
 def edit_profile(request,profile_id):
     u=User.objects.get(username=profile_id)
@@ -338,6 +398,24 @@ def expense1(request,trip_id):
                print("hell")
                l.append(i)
      return render(request,"blog/expense.html",{"data":l})
+def event_info1(request,event_id):
+     l=[]
+     
+     op=plans.objects.get(id_plan=event_id)
+     if op.owner.user.username == request.user.username :
+          op.delete()
+          return HttpResponse("deleted")
+     else:
+        return HttpResponse("NOT CREATOR OF THE PLAN")
+        
+  
+
+   
+               
+            
+        
+    
+     return render(request,"blog/devent_info.html",{'event':l})
 
 
 

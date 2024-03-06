@@ -1,18 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <!-- Add your CSS file here (if you have one) -->
+    <style>
+        /* Apply styles to the container */
+        .social-container {
+            text-align: center;
+        }
 
-{% block title %}Sign in {% endblock %}
-{% block content%}
+        /* Style the LOGIN WITH GOOGLE button */
+        .btn-primary {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Remove underlines from the link */
+        .btn-primary a {
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Add hover effect */
+        .btn-primary:hover {
+            background-color: #3367d6;
+        }
+    </style>
+</head>
+<body>
     <div class="row">
         <div class="col-md-8-ms-auto social-container my-2 order-md-1">
-            
-            <button class ="btn btn-primary mb-2">
-                <a href="{% url 'social:begin' 'google-oauth2' %}">LOGIN WITH GOOGLE 
-
-                </a>
+            <button class="btn btn-primary mb-2">
+                <a href="{% url 'social:begin' 'google-oauth2' %}">LOGIN WITH GOOGLE</a>
             </button>
-
-
-
+        </div>
     </div>
-
-
-{% endblock %}
+    <!-- Add other content or elements as needed -->
+</body>
+</html>
