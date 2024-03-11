@@ -41,6 +41,7 @@ class plans(models.Model):
     id_plan=models.IntegerField(primary_key=True)
     owner=models.ForeignKey(Trip_info,on_delete=models.CASCADE)
     description=models.CharField(max_length=250)
+    followed=models.BooleanField(default=False)
 class events(models.Model):
     owner=models.ForeignKey(Trip_info,on_delete=models.CASCADE)
    
@@ -54,6 +55,7 @@ class events(models.Model):
     estimated=models.IntegerField()
     date=models.DateField()
     description=models.CharField(max_length=200)
+    followed=models.BooleanField(default=False)
 class expense(models.Model):
     user=models.ForeignKey(Trip_info,on_delete=models.CASCADE)
     trip_id1=models.ForeignKey(trip3,on_delete=models.CASCADE)

@@ -44,7 +44,8 @@ urlpatterns = [
     path('add_friends',views.add_friends,name="add_friends"),
     path('expense/<int:trip_id>',views.expense1,name="expense"),
     path("logout",views.logout1,name="logout"),
-    path("try",views.try1,name="try1")
+    path("try",views.try1,name="try1"),
+    path('a_follow/<int:event_id>/',views.follow,name='a_follow'),
     
 
 

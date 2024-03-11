@@ -127,7 +127,7 @@ def add_person(request):
 
     return render(request,'blog/add_person.html',{'form':form,'submitted':submitted})
 def home2(request):
-    op=Trip_info.objects.all()
+    op=Trip_info.objects.all() # if leader and user is same then problem
     user1=request.user.username
     l=[]
     u=User.objects.get(username=user1)
@@ -140,8 +140,8 @@ def home2(request):
     expense7=expense.objects.all()
 
   
-    yu=[]
-    yu1=[]
+    yu=[5]# correct it
+    yu1=[5]# correct it
     for j in li:
         expense1=0
         
@@ -150,9 +150,10 @@ def home2(request):
             if i.user == j:
               expense1=expense1+i.expense
             if i.trip_id1 == j.trip :
-             exp_t=exp_t+i.expense
-        yu.append(expense1)
-        yu1.append(exp_t)
+             #exp_t=exp_t+i.expense
+                 pass
+        yu.append(5)
+        yu1.append(5)
             
         
     for i in op:
@@ -211,13 +212,18 @@ def add_trip(request):
                 op=trip3.objects.get(id=trip_id_value)
                 u=User.objects.get(username=request.user.username)
                 t=User.objects.get(username=uy.username)
+                if u == t :
+                     
                
               
-                ut=Trip_info(user=t,trip=op,ty=random.randint(1, 1000))
-                ut.save()
+                    ut=Trip_info(user=t,trip=op,ty=random.randint(1, 1000))
+                    ut.save()
+                else:
+                    ut=Trip_info(user=t,trip=op,ty=random.randint(1, 1000))
+                    ut.save()
 
-                io=Trip_info(user=u,trip=op,ty=random.randint(1, 1000))
-                io.save()
+                    io=Trip_info(user=u,trip=op,ty=random.randint(1, 1000))
+                    io.save()
                 
               
 
@@ -237,16 +243,29 @@ def add_trip(request):
 def trip_info1(request,trip_id):
      l=[]
      io=plans.objects.all()
+     op=trip3.objects.get(id=trip_id)
+     fo_plans=[]
+     group=False
+     if op.leader.username == request.user.username:
+          group=True
+   
+     
+    
+          
      for i in io:
             if i.trip_id.id == trip_id:
+                if i.followed == True:
+                     fo_plans.append(i)
+            
 
 
          
                 l.append(i)
+        
     
                
           
-     return render(request,"blog/trip_info.html",{"plans":l})
+     return render(request,"blog/trip_info.html",{"plans":l,"group":group,"following":fo_plans})
 def event_info(request,event_id):
      l=[]
      
@@ -415,7 +434,13 @@ def event_info1(request,event_id):
             
         
     
-     return render(request,"blog/devent_info.html",{'event':l})
+     #return render(request,"blog/devent_info.html",{'event':l})
+def follow(request,event_id):
+     io=plans.objects.get(id_plan=event_id)
+     io.followed=True
+     io.save()
+     return redirect('home2')
+     
 
 
 
