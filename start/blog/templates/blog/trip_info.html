@@ -51,8 +51,8 @@
 
           
               {%endfor%}
-              <button onclick="location.href='{% url 'add_plan' %}'">Add New Plan</button>
-              <button onclick="location.href='{% url 'add_expense' %}'">add expense</button>
+              <button onclick="location.href='{% url 'add_plan' trip_id %}'">Add New Plan</button>
+              <button onclick="location.href='{% url 'add_expense' trip_id %}'">add expense</button>
               
                                   
             </tbody>

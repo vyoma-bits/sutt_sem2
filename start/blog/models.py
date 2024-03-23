@@ -11,21 +11,29 @@ class train(models.Model):
     name=models.ImageField(upload_to='pics')
 class locations(models.Model):
     location=models.CharField(max_length=250,primary_key=True)
+    def __str__(self):
+        return self.location
 
 class trip3(models.Model):
     id=models.IntegerField(primary_key=True)
     place=models.ForeignKey(locations,on_delete=models.CASCADE)
   
-    people=models.IntegerField()
+    
     leader=models.ForeignKey(User,on_delete=models.CASCADE)
     start_date1=models.DateField()
     end_date1=models.DateField()
     expense1=models.IntegerField()
+    def __str__(self):
+        return self.place.location
+
 
 class Trip_info(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     trip=models.ForeignKey(trip3,on_delete=models.CASCADE)
     ty=models.IntegerField(primary_key=True)
+    def __str__(self):
+        return self.user.username
+
 
 
 class person(models.Model):
@@ -42,6 +50,7 @@ class plans(models.Model):
     owner=models.ForeignKey(Trip_info,on_delete=models.CASCADE)
     description=models.CharField(max_length=250)
     followed=models.BooleanField(default=False)
+   
 class events(models.Model):
     owner=models.ForeignKey(Trip_info,on_delete=models.CASCADE)
    
@@ -56,6 +65,7 @@ class events(models.Model):
     date=models.DateField()
     description=models.CharField(max_length=200)
     followed=models.BooleanField(default=False)
+
 class expense(models.Model):
     user=models.ForeignKey(Trip_info,on_delete=models.CASCADE)
     trip_id1=models.ForeignKey(trip3,on_delete=models.CASCADE)

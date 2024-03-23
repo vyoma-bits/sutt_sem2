@@ -126,10 +126,26 @@ def add_person(request):
                 
 
     return render(request,'blog/add_person.html',{'form':form,'submitted':submitted})
+from datetime import datetime,date,time
+current_time = datetime.now()
 def home2(request):
     op=Trip_info.objects.all() # if leader and user is same then problem
     user1=request.user.username
     l=[]
+    future_events=[]
+    current_datetime = datetime.now()
+    future_events1 = events.objects.filter(date__gte=current_datetime.date()
+                                          )
+    for event in future_events1:
+    # Combine the event date and time
+        event_datetime = datetime.combine(event.date, event.s_time)
+        if event_datetime >= current_datetime:
+            future_events.append(event)
+    
+    
+    day_events=[]
+    iop=events.objects.all()
+  
     u=User.objects.get(username=user1)
     io=Trip_info.objects.all()
     li=[]
@@ -140,20 +156,24 @@ def home2(request):
     expense7=expense.objects.all()
 
   
-    yu=[5]# correct it
-    yu1=[5]# correct it
+    yu=[]# correct it
+    yu1=[]# correct it
+    
     for j in li:
         expense1=0
+        exp_t=0
         
         for i in expense7:
             
             if i.user == j:
               expense1=expense1+i.expense
             if i.trip_id1 == j.trip :
-             #exp_t=exp_t+i.expense
-                 pass
-        yu.append(5)
-        yu1.append(5)
+             exp_t=exp_t+i.expense
+                 
+        yu.append(expense1)
+        yu1.append(exp_t)
+    trip_ids=[]
+    future=[]
             
         
     for i in op:
@@ -164,10 +184,29 @@ def home2(request):
               
          
               l.append(i.trip)
+              trip_ids.append(i.trip.id)
+    
+    for i in trip_ids:
+        for j in iop:
+            if (j.id1.trip_id.id == i):
+                current_date=datetime.now().date()
+                if (j.date == current_date):
+                     day_events.append(j)
+        for k in future_events:
+            if(k.id1.trip_id.id == i):
+                   future.append(k)
+    
+
+                
+                     
+
+              
+
+              
    
 
 
-    return render(request,'blog/index.html',{'trip':l,"user":request.user,"holidays":holidays(),"expense1":yu,"total":yu1})
+    return render(request,'blog/index.html',{'trip':l,"user":request.user,"holidays":holidays(),"expense1":yu,"total":yu1,"future":future,"day_events":day_events})
 def holidays():
 
 
@@ -265,7 +304,7 @@ def trip_info1(request,trip_id):
     
                
           
-     return render(request,"blog/trip_info.html",{"plans":l,"group":group,"following":fo_plans})
+     return render(request,"blog/trip_info.html",{"plans":l,"group":group,"following":fo_plans,"trip_id":trip_id})
 def event_info(request,event_id):
      l=[]
      
@@ -282,25 +321,39 @@ def event_info(request,event_id):
         
     
      return render(request,"blog/event_info.html",{'event':l})
-def add_plan(request):
+def add_plan(request,trip_id1):
+        student1=Trip_info.objects.all()
+        trip_id=trip3.objects.get(id=trip_id1)
+        st=[]
+        for i in student1:
+             if User.objects.get(username=request.user.username) == i.user and i.trip == trip_id :
+                  st=i
         submitted=False
         if request.method=="POST":
-            form=planForm(request.POST)
+            form=planForm(request.POST,initial={'owner': st,"trip":trip_id})
             if form.is_valid():
                 form.save()
                 
                 return HttpResponseRedirect(f'/blog/viewf?submitted=True')
         else:
-            form=planForm
+            form=planForm(initial={'owner': st,"trip":trip_id})
             if 'submitted' in request.GET:
                 submitted= request.GET.get('submitted')
                 
 
         return render(request,'blog/add_plan.html',{'form':form,'submitted':submitted})
-def add_event(request):
+def add_event(request,trip_id1):
         submitted=False
+        student1=Trip_info.objects.all()
+        trip_id=trip3.objects.get(id=trip_id1)
+        st=[]
+        for i in student1:
+             if User.objects.get(username=request.user.username) == i.user and i.trip == trip_id :
+                  st=i
+        
+
         if request.method=="POST":
-            form=EventsForm(request.POST)
+            form=EventsForm(request.POST,initial={'owner': student1})
             if form.is_valid():
                 form.save()
                 
@@ -375,34 +428,51 @@ def trip_detail(request, trip_id):
 
          
         """
-def add_expense1(request):
+def add_expense1(request,trip_id):
+        io=Trip_info.objects.all()
+        op=[]
+        for i in io:
+             if i.trip == trip3.objects.get(id=trip_id):
+                  op.append(i.ty)
+        print(op)
+        
+
+        
 
         submitted=False
         if request.method=="POST":
-            form=ExpenseForm(request.POST)
+            form=ExpenseForm(request.POST,users=op,initial={'trip': trip3.objects.get(id=trip_id)})
             if form.is_valid():
                 form.save()
 
                 
                 return HttpResponseRedirect(f'/blog/viewf?submitted=True')
         else:
-            form=ExpenseForm
+          
+            form=ExpenseForm(users=op,initial={'trip': trip3.objects.get(id=trip_id)})
             if 'submitted' in request.GET:
                 submitted= request.GET.get('submitted')
                 
 
-        return render(request,'blog/add_expense1.html',{'form':form,'submitted':submitted})
+        return render(request,'blog/add_expense1.html',{'form':form,'submitted':submitted,"trip_id":trip_id})
 def add_friends(request):
+        u=trip3.objects.all()
+        ui=[]
+        for i in u:
+             if i.leader == User.objects.get(username=request.user.username):
+                  ui.append(i.id)
+        print(ui)
+        
 
         submitted=False
         if request.method=="POST":
-            form=GroupForm(request.POST)
+            form=GroupForm(request.POST,trips=ui)
             if form.is_valid():
                 form.save()
                 
                 return HttpResponseRedirect(f'/blog/viewf?submitted=True')
         else:
-            form=GroupForm
+            form=GroupForm(trips=ui)
             if 'submitted' in request.GET:
                 submitted= request.GET.get('submitted')
                 
